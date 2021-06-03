@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Push Docker image to GitHub Packages
+    name: Build and push docker images
     runs-on: ubuntu-latest
     container:
       image: docker:dind
@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Build image
+      - name: Build and push images
         run: |
           apk add make
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
