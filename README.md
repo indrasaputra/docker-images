@@ -4,7 +4,12 @@ This repository contains a collection of docker images.
 
 ## Images
 
-Currently, there is only one image available.
+Currently, there are two images available.
+
+### golang
+
+`golang` is an image containing golang, golang-migrate, godog, and goimports.
+See more in [golang/Dockerfile](/golang/Dockerfile).
 
 ### protogen
 
