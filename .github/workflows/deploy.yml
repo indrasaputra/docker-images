@@ -1,0 +1,24 @@
+name: Publish Image
+on:
+  push:
+    branches:
+    - 'release'
+
+jobs:
+  build:
+    name: Build and push docker images
+    runs-on: ubuntu-latest
+    container:
+      image: docker:dind
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Build and push images
+        run: |
+          apk add make
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          make build-all version=0.0.1
+          make push-all version=0.0.1
