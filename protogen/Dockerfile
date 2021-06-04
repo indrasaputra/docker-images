@@ -16,7 +16,8 @@ RUN mkdir -p ${HOME}/.cache && \
 
 RUN apk add build-base \
     bash \
-    curl
+    curl \
+    git
 
 RUN curl -sSL "https://github.com/bufbuild/buf/releases/download/${BUF_VERSION}/buf-Linux-x86_64" -o /usr/local/bin/buf
 RUN chmod +x /usr/local/bin/buf
