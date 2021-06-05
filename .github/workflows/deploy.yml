@@ -17,9 +17,12 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=current::$(date +'%Y-%m-%d')"
       - name: Build and push images
         run: |
           apk add make
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          make build-all version=0.0.1
-          make push-all version=0.0.1
+          make build-all version=${{ steps.date.outputs.current }}
+          make push-all version=${{ steps.date.outputs.current }}
