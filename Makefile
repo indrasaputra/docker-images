@@ -1,16 +1,17 @@
+REGISTRY	= docker.io
 MAINTAINER 	= indrasaputra
 
 build.%: IMAGE=$*
 build.%: VERSION=$(filter-out $@,$(MAKECMDGOALS))
 build.%:
-	docker build --no-cache -t $(MAINTAINER)/$(IMAGE):$(VERSION) -f $(IMAGE)/Dockerfile .
-	docker tag $(MAINTAINER)/$(IMAGE):$(VERSION) $(MAINTAINER)/$(IMAGE):latest
+	docker build --no-cache -t $(REGISTRY)/$(MAINTAINER)/$(IMAGE):$(VERSION) -f $(IMAGE)/Dockerfile .
+	docker tag $(REGISTRY)/$(MAINTAINER)/$(IMAGE):$(VERSION) $(REGISTRY)/$(MAINTAINER)/$(IMAGE):latest
 
 push.%: IMAGE=$*
 push.%: VERSION=$(filter-out $@,$(MAKECMDGOALS))
 push.%:
-	docker push $(MAINTAINER)/$(IMAGE):$(VERSION)
-	docker push $(MAINTAINER)/$(IMAGE):latest
+	docker push $(REGISTRY)/$(MAINTAINER)/$(IMAGE):$(VERSION)
+	docker push $(REGISTRY)/$(MAINTAINER)/$(IMAGE):latest
 
 build-all:
 	make build.golang $(version)
