@@ -14,9 +14,9 @@ RUN WAIT_FOR_VERSION=v2.1.2 && \
     wget -qO/bin/wait-for https://github.com/eficode/wait-for/releases/download/${WAIT_FOR_VERSION}/wait-for && \
     chmod +x /bin/wait-for
 
-FROM golang:1.16-alpine3.13
-ENV GODOG_VERSION=v0.11.0
-ENV GOIMPORTS_VERSION=v0.1.0
+FROM golang:1.17-alpine3.13
+ENV GODOG_VERSION=v0.12.1
+ENV GOIMPORTS_VERSION=v0.1.5
 RUN apk update && apk add --no-cache git \
     make \
     bash \
