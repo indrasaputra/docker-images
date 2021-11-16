@@ -10,6 +10,7 @@ ENV PROTOC_GEN_GRPC_OPENAPIV2_VERSION=v2.5.0
 ENV GOLANGCI_LINT_VERSION=v1.42.1
 ENV GOIMPORTS_VERSION=v0.1.5
 ENV CLANG_FORMAT_VERSION=v1.4.0
+ENV PROTOLINT_VERSION=0.35.2
 
 RUN mkdir -p ${HOME}/.cache && \
     chmod 777 ${HOME}/.cache
@@ -23,6 +24,10 @@ RUN curl -sSL "https://github.com/bufbuild/buf/releases/download/${BUF_VERSION}/
 RUN chmod +x /usr/local/bin/buf
 RUN curl -sSL "https://github.com/angular/clang-format/raw/${CLANG_FORMAT_VERSION}/bin/linux_x64/clang-format" -o /usr/local/bin/clang-format
 RUN chmod +x /usr/local/bin/clang-format
+
+ADD https://github.com/yoheimuta/protolint/releases/download/v${PROTOLINT_VERSION}/protolint_${PROTOLINT_VERSION}_Linux_x86_64.tar.gz /
+RUN tar -xzf /protolint_${PROTOLINT_VERSION}_Linux_x86_64.tar.gz -C /usr/local/bin && \
+    rm -rf /protolint_${PROTOLINT_VERSION}_Linux_x86_64.tar.gz
 
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@${PROTOC_GEN_GO}
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@${PROTOC_GEN_GO_GRPC}
