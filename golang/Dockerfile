@@ -16,7 +16,7 @@ RUN WAIT_FOR_VERSION=v2.1.2 && \
 
 FROM golang:1.17-alpine3.13
 ENV GODOG_VERSION=v0.12.1
-ENV GOIMPORTS_VERSION=v0.1.5
+ENV GOIMPORTS_VERSION=v0.1.8
 RUN apk update && apk add --no-cache git \
     make \
     bash \
