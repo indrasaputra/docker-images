@@ -45,4 +45,6 @@ jobs:
           file: ./${{ inputs.image }}/Dockerfile
           platforms: ${{ inputs.platforms }}
           push: true
-          tags: docker.io/${{ github.repository_owner }}/${{ inputs.image }}:${{ steps.date.outputs.current }}
+          tags: |
+            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:${{ steps.date.outputs.current }}
+            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:latest
