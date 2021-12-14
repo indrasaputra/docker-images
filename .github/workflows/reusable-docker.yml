@@ -1,0 +1,48 @@
+name: Reusable docker related workflow
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        description: The name of the image
+        required: true
+        type: string
+      platforms:
+        description: Platforms to build the target project
+        required: false
+        type: string
+        default: "linux/amd64, linux/arm64, linux/arm/v7"
+
+    secrets:
+      DOCKER_HUB_USERNAME:
+        required: true
+      DOCKER_HUB_TOKEN:
+        required: true
+
+jobs:
+  build-push-docker:
+    name: Build and push ${{ inputs.image }} image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=current::$(date +'%Y-%m-%d')"
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Build and push ${{ inputs.image }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./${{ inputs.image }}/Dockerfile
+          platforms: ${{ inputs.platforms }}
+          push: true
+          tags: docker.io/${{ github.repository_owner }}/${{ inputs.image }}:${{ steps.date.outputs.current }}

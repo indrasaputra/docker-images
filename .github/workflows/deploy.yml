@@ -1,58 +1,26 @@
 name: Publish Image
+
 on: [push]
   # push:
-    # branches:
-    # - 'release'
-    # - 'main'
+  #   branches:
+  #   - 'release'
+  #   - 'main'
 
 jobs:
-  # build:
-  #   name: Build and push docker images
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: docker:dind
-  #   permissions:
-  #     packages: write
-  #     contents: read
-  #   steps:
-  #     - name: Clone repository
-  #       uses: actions/checkout@v2
-  #     - name: Get current date
-  #       id: date
-  #       run: echo "::set-output name=current::$(date +'%Y-%m-%d')"
-  #     - name: Build and push images
-  #       run: |
-  #         apk add make
-  #         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-  #         make build-all version=${{ steps.date.outputs.current }}
-  #         make push-all version=${{ steps.date.outputs.current }}
-
-  build-docker:
-    name: Build and push docker image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v2
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=current::$(date +'%Y-%m-%d')"
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build and push protogen
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./protogen/Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          push: true
-          tags: docker.io/${{ github.repository_owner }}/protogen:${{ steps.date.outputs.current }}
+  build-push-protogen:
+    name: Build and push docker images
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@test-more-platform
+    with:
+      image: protogen
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+  
+  build-push-golang:
+    name: Build and push docker images
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@test-more-platform
+    with:
+      image: golang
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
