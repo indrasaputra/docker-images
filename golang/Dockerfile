@@ -21,7 +21,7 @@ RUN apk update && apk add --no-cache git \
     make \
     bash \
     alpine-sdk
-RUN GO111MODULE=on go get github.com/cucumber/godog/cmd/godog@${GODOG_VERSION}
+RUN GO111MODULE=on go install github.com/cucumber/godog/cmd/godog@${GODOG_VERSION}
 RUN go install golang.org/x/tools/cmd/goimports@${GOIMPORTS_VERSION}
 COPY --from=builder /usr/bin/migrate /usr/local/bin/migrate
 COPY --from=builder /bin/wait-for /usr/local/bin/wait-for

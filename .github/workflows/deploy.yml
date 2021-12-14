@@ -1,15 +1,15 @@
 name: Publish Image
 
-on: [push]
-  # push:
-  #   branches:
-  #   - 'release'
-  #   - 'main'
+on:
+  push:
+    branches:
+    - 'release'
+    - 'main'
 
 jobs:
   build-push-protogen:
     name: Build & push protogen
-    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@test-more-platform
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
     with:
       image: protogen
     secrets:
@@ -18,7 +18,7 @@ jobs:
   
   build-push-golang:
     name: Build & push golang
-    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@test-more-platform
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
     with:
       image: golang
     secrets:
