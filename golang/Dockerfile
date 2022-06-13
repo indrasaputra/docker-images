@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine3.13 AS builder
+FROM golang:1.18-alpine3.16 as builder
     
 ENV MIGRATE_VERSION=v4.15.1
 ENV WAIT_FOR_VERSION=v2.1.2
@@ -12,10 +12,10 @@ RUN wget -qO/bin/wait-for https://github.com/eficode/wait-for/releases/download/
     chmod +x /bin/wait-for
 
 # final image
-FROM golang:1.17-alpine3.13
+FROM golang:1.18-alpine3.16
 
-ENV GODOG_VERSION=v0.12.1
-ENV GOIMPORTS_VERSION=v0.1.8
+ENV GODOG_VERSION=v0.12.5
+ENV GOIMPORTS_VERSION=v0.1.11
 
 RUN apk update && apk add --no-cache git \
     make \
