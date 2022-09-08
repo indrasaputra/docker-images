@@ -21,6 +21,7 @@ RUN apk update && apk add --no-cache git \
     make \
     bash \
     alpine-sdk
+RUN apk add python3 py-pip && pip install s3cmd
 RUN GO111MODULE=on go install github.com/cucumber/godog/cmd/godog@${GODOG_VERSION}
 RUN go install golang.org/x/tools/cmd/goimports@${GOIMPORTS_VERSION}
 COPY --from=builder /usr/bin/migrate /usr/local/bin/migrate

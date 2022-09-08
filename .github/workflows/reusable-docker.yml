@@ -49,5 +49,4 @@ jobs:
           platforms: ${{ inputs.platforms }}
           push: true
           tags: |
-            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:${{ steps.date.outputs.current }}
-            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:latest
+            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:1.17-kadabra
