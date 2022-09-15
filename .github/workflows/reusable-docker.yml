@@ -25,29 +25,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get current date
         id: date
         run: echo "::set-output name=current::$(date +'%Y-%m-%d')"
+      - name: Docker metadata
+        id: docker-metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            docker.io/${{ github.repository_owner }}/${{ inputs.image }}
+          tags: |
+            type=raw,value=${{ steps.date.outputs.current }}
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build and push ${{ inputs.image }}
-        uses: docker/build-push-action@v2
+      - name: Build and push ${{ inputs.service }}
+        uses: docker/build-push-action@v3
         with:
           context: ./
           file: ./${{ inputs.image }}/Dockerfile
           platforms: ${{ inputs.platforms }}
           push: true
-          tags: |
-            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:${{ steps.date.outputs.current }}
-            docker.io/${{ github.repository_owner }}/${{ inputs.image }}:latest
+          tags: ${{ steps.docker-metadata.outputs.tags }}

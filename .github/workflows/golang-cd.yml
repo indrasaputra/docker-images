@@ -5,12 +5,22 @@ on:
     branches:
       - 'release'
       - 'main'
-    path:
-      - 'golang/**'
 
 jobs:
+  check-changes:
+    uses: dorny/paths-filter@v2
+    id: changes
+    with:
+      filters: |
+        src:
+          - '.github/workflows/reusable-docker.yml'
+          - '.github/workflows/golang-cd.yml'
+          - 'golang/**'
+
   build-push-golang:
     name: Build & push golang
+    needs: [check-changes]
+    if: ${{ steps.changes.outputs.src == 'true' }}
     uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
     with:
       image: golang
