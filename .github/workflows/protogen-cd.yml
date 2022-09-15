@@ -8,19 +8,25 @@ on:
 
 jobs:
   check-changes:
-    uses: dorny/paths-filter@v2
-    id: changes
-    with:
-      filters: |
-        src:
-          - '.github/workflows/reusable-docker.yml'
-          - '.github/workflows/protogen-cd.yml'
-          - 'protogen/**'
+    name: Check file changes
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.filter.outputs.src }}
+    steps:
+      - name: Filter file changes
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src:
+              - '.github/workflows/reusable-docker.yml'
+              - '.github/workflows/protogen-cd.yml'
+              - 'protogen/**'
 
   build-push-protogen:
     name: Build & push protogen
     needs: [check-changes]
-    if: ${{ steps.changes.outputs.src == 'true' }}
+    if: ${{ needs.check-changes.outputs.changed == 'true' }}
     uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
     with:
       image: protogen
