@@ -1,0 +1,19 @@
+name: Publish Protogen
+
+on:
+  push:
+    branches:
+      - 'release'
+      - 'main'
+    path:
+      - 'protogen/**'
+
+jobs:
+  build-push-protogen:
+    name: Build & push protogen
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
+    with:
+      image: protogen
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
