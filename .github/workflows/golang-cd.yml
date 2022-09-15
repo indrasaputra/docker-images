@@ -1,0 +1,19 @@
+name: Publish Golang
+
+on:
+  push:
+    branches:
+      - 'release'
+      - 'main'
+    path:
+      - 'golang/**'
+
+jobs:
+  build-push-golang:
+    name: Build & push golang
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
+    with:
+      image: golang
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
