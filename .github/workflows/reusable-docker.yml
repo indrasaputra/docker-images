@@ -50,7 +50,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build and push ${{ inputs.service }}
+      - name: Build and push ${{ inputs.image }}
         uses: docker/build-push-action@v3
         with:
           context: ./
