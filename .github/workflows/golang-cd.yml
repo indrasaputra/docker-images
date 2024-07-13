@@ -3,8 +3,8 @@ name: Publish Golang
 on:
   push:
     branches:
-      - 'release'
-      - 'main'
+      - "release"
+      - "main"
 
 jobs:
   check-changes:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Filter file changes
         id: filter
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           filters: |
             src:
