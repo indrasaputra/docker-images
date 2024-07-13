@@ -3,8 +3,8 @@ name: Publish Protogen
 on:
   push:
     branches:
-      - 'release'
-      - 'main'
+      - "release"
+      - "main"
 
 jobs:
   check-changes:
@@ -14,10 +14,10 @@ jobs:
       changed: ${{ steps.filter.outputs.src }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Filter file changes
         id: filter
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           filters: |
             src:
