@@ -1,7 +1,7 @@
-FROM golang:1.20-alpine3.16 as builder
-    
-ENV MIGRATE_VERSION=v4.16.2
-ENV WAIT_FOR_VERSION=v2.1.2
+FROM golang:golang:1.23-rc-alpine3.20 as builder
+
+ENV MIGRATE_VERSION=v4.17.1
+ENV WAIT_FOR_VERSION=v2.2.4
 
 ADD https://github.com/golang-migrate/migrate/releases/download/${MIGRATE_VERSION}/migrate.linux-amd64.tar.gz /
 RUN tar -xzf /migrate.linux-amd64.tar.gz && rm -rf LICENSE README && \
@@ -12,10 +12,10 @@ RUN wget -qO/bin/wait-for https://github.com/eficode/wait-for/releases/download/
     chmod +x /bin/wait-for
 
 # final image
-FROM golang:1.20-alpine3.16
+FROM golang:golang:1.23-rc-alpine3.20
 
-ENV GODOG_VERSION=v0.12.6
-ENV GOIMPORTS_VERSION=v0.10.0
+ENV GODOG_VERSION=v0.14.1
+ENV GOIMPORTS_VERSION=v0.23.0
 
 RUN apk update && apk add --no-cache git \
     make \
