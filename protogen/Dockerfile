@@ -12,6 +12,7 @@ ENV GOLANGCI_LINT_VERSION=v1.59.1
 ENV GOIMPORTS_VERSION=v0.23.0
 ENV CLANG_FORMAT_VERSION=v1.7.0
 ENV PROTOLINT_VERSION=0.50.3
+ENV FIELDALIGNMENT_VERSION=v0.23.0
 
 RUN mkdir -p ${HOME}/.cache && \
     chmod 777 ${HOME}/.cache
@@ -37,3 +38,4 @@ RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@${PROTOC_GEN_GO_GRP
 RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@${PROTOC_GEN_GO_GRPC_GATEWAY_VERSION}
 RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@${PROTOC_GEN_GRPC_OPENAPIV2_VERSION}
 RUN go install golang.org/x/tools/cmd/goimports@${GOIMPORTS_VERSION}
+RUN go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@${FIELDALIGNMENT_VERSION}
