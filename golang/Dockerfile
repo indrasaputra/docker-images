@@ -1,4 +1,4 @@
-FROM golang:golang:1.23-rc-alpine3.20 as builder
+FROM golang:1.23-rc-alpine3.20 as builder
 
 ENV MIGRATE_VERSION=v4.17.1
 ENV WAIT_FOR_VERSION=v2.2.4
@@ -12,7 +12,7 @@ RUN wget -qO/bin/wait-for https://github.com/eficode/wait-for/releases/download/
     chmod +x /bin/wait-for
 
 # final image
-FROM golang:golang:1.23-rc-alpine3.20
+FROM golang:1.23-rc-alpine3.20
 
 ENV GODOG_VERSION=v0.14.1
 ENV GOIMPORTS_VERSION=v0.23.0
