@@ -29,7 +29,7 @@ jobs:
     name: Build & push protogen
     needs: [check-changes]
     if: ${{ needs.check-changes.outputs.changed == 'true' }}
-    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@release
+    uses: indrasaputra/docker-images/.github/workflows/reusable-docker.yml@main
     with:
       image: protogen
     secrets:
